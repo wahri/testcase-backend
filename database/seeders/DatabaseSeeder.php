@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use App\Models\Company;
 use App\Models\ItemAccountGroup;
 use App\Models\ItemGroup;
@@ -45,6 +46,10 @@ class DatabaseSeeder extends Seeder
 
         ItemUnit::create([
             'name' => 'PCS',
+        ]);
+
+        Account::create([
+            'name' => 'Biaya Adm Bank - 800-01',
         ]);
     }
 }

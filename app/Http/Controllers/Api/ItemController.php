@@ -15,8 +15,8 @@ class ItemController extends Controller
             'itemType:id,name',
             'itemGroup:id,name',
             'itemAccountGroup:id,name',
-            'itemUnit:id,name'
-        ])->get();
+            'itemUnit:id,name',
+        ])->withSum('stockIssueItems', 'quantity')->orderBy('created_at')->get();
         return response()->json([
             'message' => 'Item list retrieved successfully',
             'items' => $item,

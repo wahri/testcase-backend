@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
+use App\Models\Item;
+use App\Models\ItemUnit;
 use App\Models\StockIssue;
 use App\Models\StockIssueItem;
 use Illuminate\Http\Request;
@@ -27,13 +30,15 @@ class StockIssueController extends Controller
         } else {
             $code = $request->Code;
         }
+
+        $account = Account::find($request->Account);
         $data = [
             'company_id' => $request->Company,
             'company_name' => $request->CompanyName,
             'code' => $code,
             'date' => $request->Date,
             'account_id' => $request->Account,
-            'account_name' => $request->AccountName,
+            'account_name' => $account->name,
             'note' => $request->Note,
         ];
         $stockIssue = StockIssue::create($data);
@@ -46,13 +51,14 @@ class StockIssueController extends Controller
     public function update(Request $request, $id)
     {
         $stockIssue = StockIssue::findOrFail($id);
+        $account = Account::find($request->Account);
         $data = [
             'company_id' => $request->Company,
             'company_name' => $request->CompanyName,
             'code' => $request->Code,
             'date' => $request->Date,
             'account_id' => $request->Account,
-            'account_name' => $request->AccountName,
+            'account_name' => $account->name,
             'note' => $request->Note,
         ];
         $stockIssue->update($data);
@@ -86,12 +92,14 @@ class StockIssueController extends Controller
 
     public function storeDetail(Request $request, string $stockIssueId)
     {
+        $item = Item::find($request->Item);
+        $itemUnit = ItemUnit::find($request->ItemUnit);
         $data = [
             'item_id' => $request->Item,
-            'item_name' => $request->ItemName,
+            'item_name' => $item->label,
             'quantity' => $request->Quantity,
             'item_unit_id' => $request->ItemUnit,
-            'item_unit_name' => $request->ItemUnitName,
+            'item_unit_name' => $itemUnit->name,
             'note' => $request->Note,
         ];
         $stockIssueItem = StockIssue::findOrFail($stockIssueId)->stockIssueItems()->create($data);
@@ -104,12 +112,14 @@ class StockIssueController extends Controller
     public function updateDetail(Request $request, string $stockIssueId,string $id)
     {
         $stockIssueItem = StockIssueItem::findOrFail($id);
+        $item = Item::find($request->Item);
+        $itemUnit = ItemUnit::find($request->ItemUnit);
         $data = [
             'item_id' => $request->Item,
-            'item_name' => $request->ItemName,
+            'item_name' => $item->label,
             'quantity' => $request->Quantity,
             'item_unit_id' => $request->ItemUnit,
-            'item_unit_name' => $request->ItemUnitName,
+            'item_unit_name' => $itemUnit->name,
             'note' => $request->Note,
         ];
         $stockIssueItem->update($data);

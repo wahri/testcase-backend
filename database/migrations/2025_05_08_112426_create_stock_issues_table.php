@@ -21,6 +21,7 @@ return new class extends Migration
             $table->uuid('account_id');
             $table->foreign('account_id')->references('id')->on('accounts')->cascadeOnDelete();
             $table->string('account_name');
+            $table->enum('status', ['Entry', 'Finish'])->default('Entry');
             $table->text('note')->nullable();
             $table->timestamps();
         });

@@ -42,4 +42,9 @@ class Item extends Model
     {
         return $this->belongsTo(ItemUnit::class);
     }
+
+    public function stockIssueItems()
+    {
+        return $this->hasMany(StockIssueItem::class);
+    }
 }

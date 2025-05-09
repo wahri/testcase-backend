@@ -38,7 +38,10 @@ class AuthController extends Controller
             'updated_at' => now(),
         ]);
 
+        $user = User::with('company')->find($user->id);
+
         return response()->json([
+            'user' => $user,
             'company' => $user->company_id,
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
